@@ -107,28 +107,28 @@ public class Core {
             if (inputCode.equals(verificationCode)) {
                 return true;
             }
-            
+
             System.out.println("Invalid. Please try again or Type in Q to Quit");
         } while (true);
     }
 
     static void checkCitizenIdentificationInformation() {
         String idNumber;
-        System.out.print("Input your Citizenship ID Number: ");
         do {
+            System.out.print("Input your Citizenship ID Number: ");
             idNumber = SCAN.nextLine();
             
-            if (idNumber.equals("No")) {
+            if (idNumber.equals("Q")) {
                 return;
             }
 
-            if (Utils.isCitizenshipIDValid(idNumber)) {
+            if (Utils.isIdValid(idNumber)) {
                 showInformation(idNumber);
                 return;
             }
             
             System.out.println("Invalid Citizenship ID Number.");
-            System.out.print("Please try again or type 'No' to exit: ");
+            System.out.println("Please try again or Type in 'Q' to Quit");
         } while (true);
     }
 

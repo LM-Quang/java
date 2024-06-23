@@ -10,7 +10,13 @@ import java.util.Map;
  * @version 2024/06/20
  */
 public class Utils {
-    public static Map<String, String> provinceCodeListInitialize() {
+    //     Key: PROVINCE_CODE,  Value: PROVINCE
+    public static Map<String, String> PROVINCE_CODE_LIST = provinceCodeListInitialize();
+    //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
+    public static Map<String, String> GENDER_CODE_LIST = genderCodeListInitialize();
+
+    public static final int PREMIUM_POINT = 10000000;
+    private static Map<String, String> provinceCodeListInitialize() {
         //     Key: PROVINCE_CODE,  Value: PROVINCE
         Map<String, String> provinceCodeList = new HashMap<>();
         provinceCodeList.put("001", "Ha Noi");
@@ -94,7 +100,7 @@ public class Utils {
     * CENTURY 23 => 2200 to 2299
     * CENTURY 24 => 2300 to 2399
     * */
-    public static Map<String, String> genderCodeListInitialize() {
+    private static Map<String, String> genderCodeListInitialize() {
         //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
         Map<String, String> genderCodeList = new HashMap<>();
         genderCodeList.put("0", "19");
@@ -108,5 +114,40 @@ public class Utils {
         genderCodeList.put("8", "23");
         genderCodeList.put("9", "23");
         return genderCodeList;
+    }
+
+    public static boolean isCitizenshipIDValid(String id) {
+        /*
+         * Kiểm tra số CCCD
+         * 1. Độ dài đúng bằng 12 kí tự
+         * 2. Tất cả các ký tự phải là số từ [0-9]
+         * 3. Kiểm tra mã tỉnh: tách 3 kí tự đầu của CCCD sau đó so với mảng mã tĩnh
+         * */
+
+        /*
+         * Check Citizen Identification Number
+         * 1. Has to be a 12-character length
+         * 2. Each character has to be a number from 0 to 9
+         * 3. Check Province Code: Compare the first 3 characters with Province Code
+         * */
+        if (id.length() != 12) {
+            return false;
+        }
+
+        if (!isNumber(id)) {
+            return false;
+        }
+
+        String provinceCode = id.substring(0, 3);
+        return PROVINCE_CODE_LIST.containsKey(provinceCode);
+    }
+
+    private static boolean isNumber(String str) {
+        try {
+            Long.parseLong(str);
+            return true;
+        } catch (NumberFormatException ex) {
+            return false;
+        }
     }
 }

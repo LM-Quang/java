@@ -2,7 +2,6 @@ package core;
 
 import utils.Utils;
 
-import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,12 +10,6 @@ public class Core {
     private static final Integer VERIFICATION_CODE_LENGTH = 6;
     private static final Integer STRING_TOTAL_LENGTH = 61;
     private static final String STRING_FORMAT = "|%-" + STRING_TOTAL_LENGTH + "s|";
-
-    //     Key: PROVINCE_CODE,  Value: PROVINCE
-    private static final Map<String, String> PROVINCE_CODE_LIST = Utils.provinceCodeListInitialize();
-
-    //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
-    private static final Map<String, String> GENDER_CODE_LIST = Utils.genderCodeListInitialize();
 
     public static void main(String[] args) {
         boolean flag = true;
@@ -38,12 +31,12 @@ public class Core {
             }
         } while (flag);
     }
-    static String centerText(String text) {
+    public static String centerText(String text) {
         int padding = (STRING_TOTAL_LENGTH - text.length()) / 2;
         text = (text.length() % 2 == 0) ? text + " " : text;
         return String.format("|%" + padding + "s%s%" + padding + "s|", "", text, "");
     }
-    static void showMenu() {
+    public static void showMenu() {
         String str1 = centerText("CHECK CITIZENSHIP IDENTIFICATION NUMBER");
         String str2 = String.format(STRING_FORMAT, " 1. CHECK YOUR CITIZENSHIP IDENTIFICATION NUMBER INFORMATION");
         String str3 = String.format(STRING_FORMAT, " 0. EXIT");
@@ -57,7 +50,7 @@ public class Core {
         System.out.print("Your choice: ");
     }
 
-    static String createVerificationCode() {
+    public static String createVerificationCode() {
         String str1 = centerText("CREATE VERIFICATION CODE");
         String str2 = String.format(STRING_FORMAT, " 1. Simple Verification Code");
         String str3 = String.format(STRING_FORMAT, " 2. Complex Verification Code");
@@ -84,7 +77,7 @@ public class Core {
         } while (true);
     }
 
-    static String createSimpleVerificationCode() {
+    public static String createSimpleVerificationCode() {
         // Random num from 100 -> 999
         int random = (int) (Math.random() * 900 + 100);
 
@@ -133,9 +126,9 @@ public class Core {
             
             if (idNumber.equals("No")) {
                 return;
-            } 
-            
-            if (checkCitizenIdentificationNumber(idNumber)) {
+            }
+
+            if (Utils.isCitizenshipIDValid(idNumber)) {
                 showInformation(idNumber);
                 return;
             }
@@ -143,41 +136,6 @@ public class Core {
             System.out.println("Invalid Citizenship ID Number.");
             System.out.print("Please try again or type \'No\' to exit: ");
         } while (true);
-    }
-    
-    public static boolean checkCitizenIdentificationNumber(String idNumber) {
-        /*
-         * Kiểm tra số CCCD
-         * 1. Độ dài đúng bằng 12 kí tự
-         * 2. Tất cả các ký tự phải là số từ [0-9]
-         * 3. Kiểm tra mã tỉnh: tách 3 kí tự đầu của CCCD sau đó so với mảng mã tĩnh
-         * */
-        
-        /*
-        * Check Citizen Identification Number
-        * 1. Has to be a 12-character length
-        * 2. Each character has to be a number from 0 to 9
-        * 3. Check Province Code: Compare the first 3 characters with Province Code
-        * */
-        if (idNumber.length() != 12) {
-            return false;
-        }
-        
-        if (!isNumber(idNumber)) {
-            return false;
-        }
-        
-        String provinceCode = idNumber.substring(0, 3);
-        return PROVINCE_CODE_LIST.containsKey(provinceCode);
-    }
-    
-    public static boolean isNumber(String str) {
-        try {
-            Long.parseLong(str);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
-        }
     }
 
     public static void showInformation(String idNumber) {
@@ -187,8 +145,8 @@ public class Core {
         String randomCode = idNumber.substring(6);
 
         String str1 = centerText("YOUR CITIZENSHIP INFORMATION");
-        String str2 = String.format(STRING_FORMAT, " Place of Birth: " + PROVINCE_CODE_LIST.get(provinceCode));
-        String str3 = String.format(STRING_FORMAT, " Year of Birth: " + GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
+        String str2 = String.format(STRING_FORMAT, " Place of Birth: " + Utils.PROVINCE_CODE_LIST.get(provinceCode));
+        String str3 = String.format(STRING_FORMAT, " Year of Birth: " + Utils.GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
         String gender = Integer.parseInt(genderCode) % 2 == 0 ? "Male" : "Female";
         String str4 = String.format(STRING_FORMAT, " Gender: " + gender);
         String str5 = String.format(STRING_FORMAT, " Random Number: " + randomCode);

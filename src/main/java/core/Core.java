@@ -134,7 +134,7 @@ public class Core {
             }
             
             System.out.println("Invalid Citizenship ID Number.");
-            System.out.print("Please try again or type \'No\' to exit: ");
+            System.out.print("Please try again or type 'No' to exit: ");
         } while (true);
     }
 

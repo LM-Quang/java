@@ -8,8 +8,6 @@ import java.util.Scanner;
 public class Core {
     private static final Scanner SCAN = new Scanner(System.in);
     private static final Integer VERIFICATION_CODE_LENGTH = 6;
-    private static final Integer STRING_TOTAL_LENGTH = 61;
-    private static final String STRING_FORMAT = "|%-" + STRING_TOTAL_LENGTH + "s|";
 
     public static void main(String[] args) {
         boolean flag = true;
@@ -31,15 +29,11 @@ public class Core {
             }
         } while (flag);
     }
-    public static String centerText(String text) {
-        int padding = (STRING_TOTAL_LENGTH - text.length()) / 2;
-        text = (text.length() % 2 == 0) ? text + " " : text;
-        return String.format("|%" + padding + "s%s%" + padding + "s|", "", text, "");
-    }
+
     public static void showMenu() {
-        String str1 = centerText("CHECK CITIZENSHIP IDENTIFICATION NUMBER");
-        String str2 = String.format(STRING_FORMAT, " 1. CHECK YOUR CITIZENSHIP IDENTIFICATION NUMBER INFORMATION");
-        String str3 = String.format(STRING_FORMAT, " 0. EXIT");
+        String str1 = Utils.centerText("CHECK CITIZENSHIP IDENTIFICATION NUMBER");
+        String str2 = String.format(Utils.STRING_FORMAT, " 1. CHECK YOUR CITIZENSHIP IDENTIFICATION NUMBER INFORMATION");
+        String str3 = String.format(Utils.STRING_FORMAT, " 0. EXIT");
 
         System.out.println("+-------------------+---------------------+-------------------+");
         System.out.println(str1);
@@ -51,9 +45,9 @@ public class Core {
     }
 
     public static String createVerificationCode() {
-        String str1 = centerText("CREATE VERIFICATION CODE");
-        String str2 = String.format(STRING_FORMAT, " 1. Simple Verification Code");
-        String str3 = String.format(STRING_FORMAT, " 2. Complex Verification Code");
+        String str1 = Utils.centerText("CREATE VERIFICATION CODE");
+        String str2 = String.format(Utils.STRING_FORMAT, " 1. Simple Verification Code");
+        String str3 = String.format(Utils.STRING_FORMAT, " 2. Complex Verification Code");
 
         String chose;
         do {
@@ -77,8 +71,8 @@ public class Core {
         } while (true);
     }
 
+    // Random num from 100 -> 999
     public static String createSimpleVerificationCode() {
-        // Random num from 100 -> 999
         int random = (int) (Math.random() * 900 + 100);
 
         return String.valueOf(random);
@@ -144,12 +138,12 @@ public class Core {
         String yearOfBirthCode = idNumber.substring(4, 6);
         String randomCode = idNumber.substring(6);
 
-        String str1 = centerText("YOUR CITIZENSHIP INFORMATION");
-        String str2 = String.format(STRING_FORMAT, " Place of Birth: " + Utils.PROVINCE_CODE_LIST.get(provinceCode));
-        String str3 = String.format(STRING_FORMAT, " Year of Birth: " + Utils.GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
+        String str1 = Utils.centerText("YOUR CITIZENSHIP INFORMATION");
+        String str2 = String.format(Utils.STRING_FORMAT, " Place of Birth: " + Utils.PROVINCE_CODE_LIST.get(provinceCode));
+        String str3 = String.format(Utils.STRING_FORMAT, " Year of Birth: " + Utils.GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
         String gender = Integer.parseInt(genderCode) % 2 == 0 ? "Male" : "Female";
-        String str4 = String.format(STRING_FORMAT, " Gender: " + gender);
-        String str5 = String.format(STRING_FORMAT, " Random Number: " + randomCode);
+        String str4 = String.format(Utils.STRING_FORMAT, " Gender: " + gender);
+        String str5 = String.format(Utils.STRING_FORMAT, " Random Number: " + randomCode);
 
         System.out.println("+-------------------+---------------------+-------------------+");
         System.out.println(str1);

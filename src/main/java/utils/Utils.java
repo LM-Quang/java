@@ -12,10 +12,15 @@ import java.util.Map;
 public class Utils {
     //     Key: PROVINCE_CODE,  Value: PROVINCE
     public static Map<String, String> PROVINCE_CODE_LIST = provinceCodeListInitialize();
+
     //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
     public static Map<String, String> GENDER_CODE_LIST = genderCodeListInitialize();
 
     public static final int PREMIUM_POINT = 10000000;
+
+    private static final Integer STRING_TOTAL_LENGTH = 61;
+
+    public static final String STRING_FORMAT = "|%-" + STRING_TOTAL_LENGTH + "s|";
     private static Map<String, String> provinceCodeListInitialize() {
         //     Key: PROVINCE_CODE,  Value: PROVINCE
         Map<String, String> provinceCodeList = new HashMap<>();
@@ -149,5 +154,11 @@ public class Utils {
         } catch (NumberFormatException ex) {
             return false;
         }
+    }
+
+    public static String centerText(String text) {
+        int padding = (STRING_TOTAL_LENGTH - text.length()) / 2;
+        text = (text.length() % 2 == 0) ? text + " " : text;
+        return String.format("|%" + padding + "s%s%" + padding + "s|", "", text, "");
     }
 }

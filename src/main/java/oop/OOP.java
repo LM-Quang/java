@@ -5,40 +5,43 @@ import models.Bank;
 import models.Customer;
 import utils.Utils;
 
-import java.util.ArrayList;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class OOP {
     private static final Scanner SCAN = new Scanner(System.in);
     private static final Bank BANK = new Bank();
+    private static final Integer ACCOUNT_NUMBER_LENGTH = 6;
+    private static final Integer ACCOUNT_FLOOR_LIMIT_BALANCE = 50000;
     public static void main(String[] args) {
         boolean flag = true;
         do {
-                showMenu();
-                String chose = SCAN.nextLine();
-                switch (chose) {
-                    case "0":
-                        flag = false;
-                        break;
-                    case "1":
-                        addCustomer();
-                        break;
-                    case "2":
-                        addAccount();
-                        break;
-                    case "3":
-                        displayCustomerList();
-                        break;
-                    case "4":
-                        findCustomerByCustomerID();
-                        break;
-                    case "5":
-                        findCustomerByName();
-                        break;
-                    default:
-                        System.out.println("Invalid. Please choose again!");
-                }
+            showMenu();
+            String chose = SCAN.nextLine();
+            switch (chose) {
+                case "0":
+                    flag = false;
+                    break;
+                case "1":
+                    addCustomer();
+                    break;
+                case "2":
+                    addAccount();
+                    break;
+                case "3":
+                    displayCustomerList();
+                    break;
+                case "4":
+                    findCustomerByID();
+                    break;
+                case "5":
+                    findCustomerByName();
+                    break;
+                default:
+                    System.out.println("Invalid. Please choose again!");
+            }
         } while (flag);
     }
     
@@ -65,56 +68,86 @@ public class OOP {
     }
 
     public static void addCustomer() {
-        Customer customer = new Customer();
-
-        System.out.print("Nhap ten khach hang: ");
+        System.out.print("INPUT CUSTOMER NAME: ");
         String customerName = SCAN.nextLine();
-        customer.setName(customerName);
 
-        System.out.print("Nhap so CCCD: ");
-        String soCCCD;
-        boolean flag = true;
+        String customerId;
         do {
-            try {
-                soCCCD = SCAN.nextLine();
-                if (soCCCD.equals("No")) {
-                    break;
-                }
-                customer.setCustomerId(soCCCD);
-                BANK.addCustomer(customer);
-                flag = false;
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.print("Vui long nhap lai hoac 'No' de thoat: ");
+            System.out.print("INPUT CUSTOMER ID: ");
+            customerId = SCAN.nextLine();
+
+            if (customerId.equals("No")) {
+                return;
             }
-        } while (flag);
+
+            if (Utils.isIdValid(customerId) && !BANK.isCustomerExisted(customerId)) {
+                break;
+            }
+
+            System.out.println("Invalid ID. Please try again or type 'No' to exit");
+        } while (true);
+
+        Customer customer = new Customer(customerId, customerName);
+        BANK.addCustomer(customer);
     }
 
     public static void addAccount() {
-        boolean kiemTraCCCD = true;
-        System.out.print("Nhap CCCD khach hang: ");
-        String soCCCD;
+        String customerId;
         do {
-            soCCCD = SCAN.nextLine();
-            if(soCCCD.equals("No")){
+            System.out.print("INPUT CUSTOMER ID: ");
+            customerId = SCAN.nextLine();
+
+            if (customerId.equals("No")){
                 return;
             }
-            if(!BANK.isCustomerExisted(soCCCD)){
-                System.out.println("So CCCD khong ton tai trong he thong.");
-                System.out.print("Vui long nhap lai hoac 'No' de thoat: ");
-            } else {
-                kiemTraCCCD = false;
+
+            if (Utils.isIdValid(customerId) && BANK.isCustomerExisted(customerId)){
+                break;
             }
-        } while (kiemTraCCCD);
+
+            System.out.println("Invalid ID. Please try again or type 'No' to exit");
+        } while (true);
 
         Account account = new Account();
-        String stk = nhapSTK();
-        double soDu = nhapSoDu();
-        account.setAccountNumber(stk);
-        account.setBalance(soDu);
+        String number = inputNumber();
+        double balance = inputBalance();
+        account.setNumber(number);
+        account.setBalance(balance);
 
-        BANK.addAccount(account);
-//        BANK.addAccount(soCCCD, account);
+        BANK.addAccount(customerId, account);
+    }
+
+    public static String inputNumber() {
+        String number;
+        do {
+            System.out.print("Input a 6-digit number: ");
+            number = SCAN.nextLine();
+
+            if (Utils.isNumber(number) && number.length() == ACCOUNT_NUMBER_LENGTH && !BANK.isAccountExisted(number)) {
+                break;
+            }
+
+            System.out.println("Invalid Account number. Please try again!");
+        } while (true);
+        return number;
+    }
+
+    public static double inputBalance() {
+        double balance;
+        do {
+            System.out.print("Input Balance: ");
+            balance = SCAN.nextDouble();
+            SCAN.nextLine();
+
+            if (balance >= ACCOUNT_FLOOR_LIMIT_BALANCE) {
+                break;
+            }
+
+            System.out.print("Balance must be at least "
+                            + getCurrencyFormat(ACCOUNT_FLOOR_LIMIT_BALANCE)
+                            + ". Please try again!");
+        } while (true);
+        return balance;
     }
 
     public static void displayCustomerList() {
@@ -124,97 +157,39 @@ public class OOP {
         }
     }
 
-    public static void findCustomerByCustomerID() {
-        System.out.print("Nhap so CCCD can tim: ");
-        String soCCCD = SCAN.nextLine();
+    public static void findCustomerByID() {
+        System.out.print("Input Customer ID to find: ");
+        String customerId = SCAN.nextLine();
 
-        if (BANK.isCustomerExisted(soCCCD)) {
-            Customer foundCustomer = new Customer();
-
-            for (Customer customer : BANK.getCustomers()) {
-                if (customer.getCustomerId().equals(soCCCD)) {
-                    foundCustomer = customer;
-                }
-            }
-            foundCustomer.displayInformation();
-        } else {
-            System.out.println("So CCCD khong ton tai");
+        if (!BANK.isCustomerExisted(customerId)) {
+            System.out.println("Customer ID doesn't exist");
+            return;
         }
+
+        Customer foundCustomer = BANK.getCustomerById(customerId);
+        foundCustomer.displayInformation();
     }
 
     public static void findCustomerByName() {
-        System.out.print("Nhap ten Khach hang can tim: ");
+        System.out.print("Input Customer's Name to find: ");
         String name = SCAN.nextLine();
 
-        List<Customer> foundCustomers = new ArrayList<>();
+        List<Customer> foundCustomers = BANK.getCustomersByName(name);
 
-        for (Customer customer : BANK.getCustomers()) {
-            if (customer.getName().toLowerCase().contains(name.toLowerCase())) {
-                foundCustomers.add(customer);
-            }
-        }
         if (foundCustomers.isEmpty()) {
-            System.out.println("Khong co khach hang ten: " + name);
-        } else {
-            for (Customer customer : foundCustomers) {
-                customer.displayInformation();
-            }
+            System.out.println("Customer: " + name + " doesn't exist");
+            return;
+        }
+
+        for (Customer customer : foundCustomers) {
+            customer.displayInformation();
         }
     }
 
-    private static boolean isStringNumber(String str) {
-        try {
-            Long.parseLong(str);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-    }
+    public static String getCurrencyFormat(int balance) {
+        Locale vn = new Locale("vi", "VN");
+        NumberFormat vndFormat = NumberFormat.getCurrencyInstance(vn);
 
-    public static boolean kiemTraTonTaiSTK(String stk){
-        for(Customer customer: BANK.getCustomers()){
-            for(Account account: customer.getAccounts()){
-                if(account.getAccountNumber().equals(stk)){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public static String nhapSTK() {
-        boolean flag = true;
-        System.out.print("Nhap ma STK gom 6 chu so: ");
-        String stk;
-        do {
-            stk = SCAN.nextLine();
-            if(!isStringNumber(stk)||stk.length()!=6){
-                System.out.println("So tai khoan khong hop le.");
-                System.out.print("Vui long nhap lai: ");
-            } else if(kiemTraTonTaiSTK(stk)){
-                System.out.println("So tai khoan da ton tai.");
-                System.out.print("Vui long nhap lai: ");
-            } else {
-                flag = false;
-            }
-        } while (flag);
-        return stk;
-    }
-
-    public static double nhapSoDu() {
-        System.out.print("Nhap so du: ");
-        double soDu;
-        boolean flag = true;
-        do {
-            soDu = SCAN.nextDouble();
-            SCAN.nextLine();
-            if (soDu >= 50000) {
-                flag = false;
-            } else {
-                System.out.println("So du khong duoc nho hon 50.000vnd");
-                System.out.print("Vui long nhap lai: ");
-            }
-        } while (flag);
-        return soDu;
+        return vndFormat.format(balance);
     }
 }

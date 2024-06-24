@@ -10,6 +10,10 @@ import java.util.Map;
  * @version 2024/06/20
  */
 public class Utils {
+    private static final Integer ID_LENGTH = 12;
+
+    private static final Integer STRING_TOTAL_LENGTH = 61;
+
     //     Key: PROVINCE_CODE,  Value: PROVINCE
     public static Map<String, String> PROVINCE_CODE_LIST = provinceCodeListInitialize();
 
@@ -17,8 +21,6 @@ public class Utils {
     public static Map<String, String> GENDER_CODE_LIST = genderCodeListInitialize();
 
     public static final int PREMIUM_POINT = 10000000;
-
-    private static final Integer STRING_TOTAL_LENGTH = 61;
 
     public static final String STRING_FORMAT = "|%-" + STRING_TOTAL_LENGTH + "s|";
     private static Map<String, String> provinceCodeListInitialize() {
@@ -121,7 +123,7 @@ public class Utils {
         return genderCodeList;
     }
 
-    public static boolean isCitizenshipIDValid(String id) {
+    public static boolean isIdValid(String id) {
         /*
          * Kiểm tra số CCCD
          * 1. Độ dài đúng bằng 12 kí tự
@@ -135,7 +137,7 @@ public class Utils {
          * 2. Each character has to be a number from 0 to 9
          * 3. Check Province Code: Compare the first 3 characters with Province Code
          * */
-        if (id.length() != 12) {
+        if (id.length() != ID_LENGTH) {
             return false;
         }
 
@@ -147,7 +149,7 @@ public class Utils {
         return PROVINCE_CODE_LIST.containsKey(provinceCode);
     }
 
-    private static boolean isNumber(String str) {
+    public static boolean isNumber(String str) {
         try {
             Long.parseLong(str);
             return true;

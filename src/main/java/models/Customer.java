@@ -1,9 +1,13 @@
 package models;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class Customer extends User {
+public class Customer {
+    private String id;
+    private String name;
     private final List<Account> accounts;
 //    private boolean isPremium;
 //    private int numOfPremiumAccount;
@@ -12,6 +16,28 @@ public class Customer extends User {
         accounts = new ArrayList<>();
 //        isPremium = false;
 //        numOfPremiumAccount = 0;
+    }
+
+    public Customer(String id, String name) {
+        this.id = id;
+        this.name = name;
+        accounts = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Account> getAccounts() {
@@ -31,6 +57,42 @@ public class Customer extends User {
     }
 
     public void addAccount(Account newAccount) {
-        
+        accounts.add(newAccount);
+    }
+
+    public boolean isAccountExisted(Account account) {
+        for (Account acc: accounts) {
+            if (acc.getNumber().equals(account.getNumber())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double getBalance() {
+        double balance = 0;
+        for (Account account: accounts) {
+            balance += account.getBalance();
+        }
+        return balance;
+    }
+
+    public void displayInformation() {
+        Locale vn = new Locale("vi", "VN");
+        NumberFormat vndFormat = NumberFormat.getCurrencyInstance(vn);
+
+        String id = String.format("%-13s", this.id);
+        String name = String.format("| %-16s", this.name);
+        String type = String.format(" | %-8s", isPremium() ? "Premium" : "Normal");
+        String totalBalance = String.format("|%20s", vndFormat.format(getBalance()));
+        String str1 = id + name + type + totalBalance;
+        System.out.println(str1);
+
+        for (int i = 0; i < accounts.size(); i++) {
+            Account account = accounts.get(i);
+            String str2 = String.format("%-6d", i + 1);
+            System.out.print(str2);
+            account.printAccountInformation();
+        }
     }
 }

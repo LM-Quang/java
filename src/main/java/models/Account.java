@@ -6,24 +6,22 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Account {
-    private String accountNumber;
+    private String number;
     private double balance;
-//    private String customerId;
 
     public Account() {}
 
-    public Account(String accountNumber, double balance) {
-        this.accountNumber = accountNumber;
+    public Account(String number, double balance) {
+        this.number = number;
         this.balance = balance;
-//        this.customerId = customerId;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public double getBalance() {
@@ -34,25 +32,15 @@ public class Account {
         this.balance = balance;
     }
 
-//    public String getCustomerId() {
-//        return customerId;
-//    }
-//
-//    public void setCustomerId(String customerId) {
-//        this.customerId = customerId;
-//    }
-
     public boolean isPremium() {
         return this.balance >= Utils.PREMIUM_POINT;
     }
 
-    public void numberToString() {
+    public void printAccountInformation() {
         Locale vn = new Locale("vi", "VN");
         NumberFormat vndFormat = NumberFormat.getCurrencyInstance(vn);
 
-        String str = String.format("%38s", vndFormat.format(this.balance));
-        System.out.println(this.accountNumber + " |" + str);
+        String str = String.format("%49s", vndFormat.format(this.balance));
+        System.out.println(this.number + " |" + str);
     }
-
-
 }

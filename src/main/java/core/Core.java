@@ -1,6 +1,8 @@
 package core;
 
-import utils.Utils;
+import utils.Constant;
+import utils.IdValidation;
+import utils.StringFormat;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -31,9 +33,9 @@ public class Core {
     }
 
     public static void showMenu() {
-        String str1 = Utils.centerText("CHECK CITIZENSHIP IDENTIFICATION NUMBER");
-        String str2 = String.format(Utils.STRING_FORMAT, " 1. CHECK YOUR CITIZENSHIP IDENTIFICATION NUMBER INFORMATION");
-        String str3 = String.format(Utils.STRING_FORMAT, " 0. EXIT");
+        String str1 = StringFormat.centerText("CHECK CITIZENSHIP IDENTIFICATION NUMBER");
+        String str2 = String.format(Constant.STRING_FORMAT, " 1. CHECK YOUR CITIZENSHIP IDENTIFICATION NUMBER INFORMATION");
+        String str3 = String.format(Constant.STRING_FORMAT, " 0. EXIT");
 
         System.out.println("+-------------------+---------------------+-------------------+");
         System.out.println(str1);
@@ -45,9 +47,9 @@ public class Core {
     }
 
     public static String createVerificationCode() {
-        String str1 = Utils.centerText("CREATE VERIFICATION CODE");
-        String str2 = String.format(Utils.STRING_FORMAT, " 1. Simple Verification Code");
-        String str3 = String.format(Utils.STRING_FORMAT, " 2. Complex Verification Code");
+        String str1 = StringFormat.centerText("CREATE VERIFICATION CODE");
+        String str2 = String.format(Constant.STRING_FORMAT, " 1. Simple Verification Code");
+        String str3 = String.format(Constant.STRING_FORMAT, " 2. Complex Verification Code");
 
         String chose;
         do {
@@ -122,7 +124,7 @@ public class Core {
                 return;
             }
 
-            if (Utils.isIdValid(idNumber)) {
+            if (IdValidation.isIdValid(idNumber)) {
                 showInformation(idNumber);
                 return;
             }
@@ -138,12 +140,12 @@ public class Core {
         String yearOfBirthCode = idNumber.substring(4, 6);
         String randomCode = idNumber.substring(6);
 
-        String str1 = Utils.centerText("YOUR CITIZENSHIP INFORMATION");
-        String str2 = String.format(Utils.STRING_FORMAT, " Place of Birth: " + Utils.PROVINCE_CODE_LIST.get(provinceCode));
-        String str3 = String.format(Utils.STRING_FORMAT, " Year of Birth: " + Utils.GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
+        String str1 = StringFormat.centerText("YOUR CITIZENSHIP INFORMATION");
+        String str2 = String.format(Constant.STRING_FORMAT, " Place of Birth: " + Constant.PROVINCE_CODE_LIST.get(provinceCode));
+        String str3 = String.format(Constant.STRING_FORMAT, " Year of Birth: " + Constant.GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
         String gender = Integer.parseInt(genderCode) % 2 == 0 ? "Male" : "Female";
-        String str4 = String.format(Utils.STRING_FORMAT, " Gender: " + gender);
-        String str5 = String.format(Utils.STRING_FORMAT, " Random Number: " + randomCode);
+        String str4 = String.format(Constant.STRING_FORMAT, " Gender: " + gender);
+        String str5 = String.format(Constant.STRING_FORMAT, " Random Number: " + randomCode);
 
         System.out.println("+-------------------+---------------------+-------------------+");
         System.out.println(str1);

@@ -3,7 +3,10 @@ package oop;
 import models.Account;
 import models.Bank;
 import models.Customer;
-import utils.Utils;
+import utils.Constant;
+import utils.IdValidation;
+import utils.NumberValidation;
+import utils.StringFormat;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -46,13 +49,13 @@ public class OOP {
     }
     
     public static void showMenu() {
-        String str1 = Utils.centerText("BANKING APPLICATION");
-        String str2 = String.format(Utils.STRING_FORMAT, " 1. ADD NEW CUSTOMER");
-        String str3 = String.format(Utils.STRING_FORMAT, " 2. ADD NEW ACCOUNT FOR CUSTOMER");
-        String str4 = String.format(Utils.STRING_FORMAT, " 3. SHOW CUSTOMER LIST");
-        String str5 = String.format(Utils.STRING_FORMAT, " 4. FIND BY CUSTOMER ID");
-        String str6 = String.format(Utils.STRING_FORMAT, " 5. FIND BY CUSTOMER NAME");
-        String str7 = String.format(Utils.STRING_FORMAT, " 0. EXIT");
+        String str1 = StringFormat.centerText("BANKING APPLICATION");
+        String str2 = String.format(Constant.STRING_FORMAT, " 1. ADD NEW CUSTOMER");
+        String str3 = String.format(Constant.STRING_FORMAT, " 2. ADD NEW ACCOUNT FOR CUSTOMER");
+        String str4 = String.format(Constant.STRING_FORMAT, " 3. SHOW CUSTOMER LIST");
+        String str5 = String.format(Constant.STRING_FORMAT, " 4. FIND BY CUSTOMER ID");
+        String str6 = String.format(Constant.STRING_FORMAT, " 5. FIND BY CUSTOMER NAME");
+        String str7 = String.format(Constant.STRING_FORMAT, " 0. EXIT");
 
         System.out.println("+-------------------+---------------------+-------------------+");
         System.out.println(str1);
@@ -80,7 +83,7 @@ public class OOP {
                 return;
             }
 
-            if (Utils.isIdValid(customerId) && !BANK.isCustomerExisted(customerId)) {
+            if (IdValidation.isIdValid(customerId) && !BANK.isCustomerExisted(customerId)) {
                 break;
             }
 
@@ -101,7 +104,7 @@ public class OOP {
                 return;
             }
 
-            if (Utils.isIdValid(customerId) && BANK.isCustomerExisted(customerId)){
+            if (IdValidation.isIdValid(customerId) && BANK.isCustomerExisted(customerId)){
                 break;
             }
 
@@ -123,7 +126,7 @@ public class OOP {
             System.out.print("Input a 6-digit number: ");
             number = SCAN.nextLine();
 
-            if (Utils.isNumber(number) && number.length() == ACCOUNT_NUMBER_LENGTH && !BANK.isAccountExisted(number)) {
+            if (NumberValidation.isNumber(number) && number.length() == ACCOUNT_NUMBER_LENGTH && !BANK.isAccountExisted(number)) {
                 break;
             }
 

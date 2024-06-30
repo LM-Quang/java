@@ -4,26 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * provinceCodeList class description.
+ * Initialization class description.
  *
  * @author quangle
- * @version 2024/06/20
+ * @version 2024/06/30
  */
-public class Utils {
-    private static final Integer ID_LENGTH = 12;
-
-    private static final Integer STRING_TOTAL_LENGTH = 61;
-
-    //     Key: PROVINCE_CODE,  Value: PROVINCE
-    public static Map<String, String> PROVINCE_CODE_LIST = provinceCodeListInitialize();
-
-    //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
-    public static Map<String, String> GENDER_CODE_LIST = genderCodeListInitialize();
-
-    public static final int PREMIUM_POINT = 10000000;
-
-    public static final String STRING_FORMAT = "|%-" + STRING_TOTAL_LENGTH + "s|";
-    private static Map<String, String> provinceCodeListInitialize() {
+public class Initialization {
+    static Map<String, String> provinceCodeListInitialize() {
         //     Key: PROVINCE_CODE,  Value: PROVINCE
         Map<String, String> provinceCodeList = new HashMap<>();
         provinceCodeList.put("001", "Ha Noi");
@@ -93,21 +80,19 @@ public class Utils {
     }
 
     /*
-    * CENTURY = 20 => 0 = MALE, 1 = FEMALE
-    * CENTURY = 21 => 2 = MALE, 3 = FEMALE
-    * CENTURY = 22 => 4 = MALE, 5 = FEMALE
-    * CENTURY = 23 => 6 = MALE, 7 = FEMALE
-    * CENTURY = 24 => 8 = MALE, 9 = FEMALE
-    * */
+     * CENTURY = 20 => 0 = MALE, 1 = FEMALE
+     * CENTURY = 21 => 2 = MALE, 3 = FEMALE
+     * CENTURY = 22 => 4 = MALE, 5 = FEMALE
+     * CENTURY = 23 => 6 = MALE, 7 = FEMALE
+     * CENTURY = 24 => 8 = MALE, 9 = FEMALE
 
-    /*
-    * CENTURY 20 => 1900 to 1999
-    * CENTURY 21 => 2000 to 2099
-    * CENTURY 22 => 2100 to 2199
-    * CENTURY 23 => 2200 to 2299
-    * CENTURY 24 => 2300 to 2399
-    * */
-    private static Map<String, String> genderCodeListInitialize() {
+     * CENTURY 20 => 1900 to 1999
+     * CENTURY 21 => 2000 to 2099
+     * CENTURY 22 => 2100 to 2199
+     * CENTURY 23 => 2200 to 2299
+     * CENTURY 24 => 2300 to 2399
+     * */
+    static Map<String, String> genderCodeListInitialize() {
         //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
         Map<String, String> genderCodeList = new HashMap<>();
         genderCodeList.put("0", "19");
@@ -121,46 +106,5 @@ public class Utils {
         genderCodeList.put("8", "23");
         genderCodeList.put("9", "23");
         return genderCodeList;
-    }
-
-    public static boolean isIdValid(String id) {
-        /*
-         * Kiểm tra số CCCD
-         * 1. Độ dài đúng bằng 12 kí tự
-         * 2. Tất cả các ký tự phải là số từ [0-9]
-         * 3. Kiểm tra mã tỉnh: tách 3 kí tự đầu của CCCD sau đó so với mảng mã tĩnh
-         * */
-
-        /*
-         * Check Citizen Identification Number
-         * 1. Has to be a 12-character length
-         * 2. Each character has to be a number from 0 to 9
-         * 3. Check Province Code: Compare the first 3 characters with Province Code
-         * */
-        if (id.length() != ID_LENGTH) {
-            return false;
-        }
-
-        if (!isNumber(id)) {
-            return false;
-        }
-
-        String provinceCode = id.substring(0, 3);
-        return PROVINCE_CODE_LIST.containsKey(provinceCode);
-    }
-
-    public static boolean isNumber(String str) {
-        try {
-            Long.parseLong(str);
-            return true;
-        } catch (NumberFormatException ex) {
-            return false;
-        }
-    }
-
-    public static String centerText(String text) {
-        int padding = (STRING_TOTAL_LENGTH - text.length()) / 2;
-        text = (text.length() % 2 == 0) ? text + " " : text;
-        return String.format("|%" + padding + "s%s%" + padding + "s|", "", text, "");
     }
 }

@@ -1,6 +1,6 @@
 package models;
 
-import utils.Utils;
+import utils.Constant;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -33,7 +33,7 @@ public class Account {
     }
 
     public boolean isPremium() {
-        return this.balance >= Utils.PREMIUM_POINT;
+        return this.balance >= Constant.PREMIUM_POINT;
     }
 
     public void printAccountInformation() {

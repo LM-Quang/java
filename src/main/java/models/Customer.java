@@ -1,9 +1,10 @@
 package models;
 
-import java.text.NumberFormat;
+import utils.Constant;
+import utils.CurrencyFormat;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Customer {
     private String id;
@@ -78,13 +79,10 @@ public class Customer {
     }
 
     public void displayInformation() {
-        Locale vn = new Locale("vi", "VN");
-        NumberFormat vndFormat = NumberFormat.getCurrencyInstance(vn);
-
         String id = String.format("%-13s", this.id);
         String name = String.format("| %-16s", this.name);
         String type = String.format(" | %-8s", isPremium() ? "Premium" : "Normal");
-        String totalBalance = String.format("|%20s", vndFormat.format(getBalance()));
+        String totalBalance = String.format("|%20s", CurrencyFormat.getCurrencyFormat(Constant.LANGUAGE, Constant.COUNTRY, getBalance()));
         String str1 = id + name + type + totalBalance;
         System.out.println(str1);
 

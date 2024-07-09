@@ -1,4 +1,4 @@
-## Java CORE - CHECK VIETNAMESE CITIZEN IDENTIFICATION NUMBER INFORMATION
+## CORE - CHECK VIETNAMESE CITIZEN IDENTIFICATION NUMBER INFORMATION
 
 The Vietnamese Citizen Identification Number is a 12-character length String consist of 4 part
  - part 1 (first 3 characters) is the PROVINCE CODE of your Birth Province
@@ -12,4 +12,6 @@ EX: Number is 001090123456
 - part 3: 90 => you were born in 1990
 - part 4: 123456
 
-## Java OOP - Banking App
+## Basic OOP - Banking App
+- Use Encapsulation to hide data details
+- Only show interface that user needs

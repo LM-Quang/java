@@ -5,9 +5,7 @@ import utils.CurrencyFormat;
 import utils.IdValidation;
 import utils.NumberValidation;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Bank {
     private final List<Customer> customers;
@@ -16,30 +14,10 @@ public class Bank {
         customers = new ArrayList<>();
     }
 
-    private String inputCustomerId(Scanner scanner, boolean isCustomerExisted, String errorMessage) {
-        String customerId;
-        do {
-            System.out.print("INPUT CUSTOMER ID: ");
-            customerId = scanner.nextLine();
-
-            if (customerId.equals("No")) {
-                return null;
-            }
-
-            if (!IdValidation.isIdValid(customerId)) {
-                System.out.println("Customer ID is invalid");
-                System.out.println("Please try again or type 'No' to exit");
-                continue;
-            }
-
-            if (isCustomerExisted(customerId) != isCustomerExisted) {
-                System.out.println(errorMessage);
-                continue;
-            }
-
-            return customerId;
-        } while (true);
+    public List<Customer> getCustomers() {
+        return customers;
     }
+
     public void addCustomer(Scanner scanner) {
         System.out.print("INPUT CUSTOMER NAME: ");
         String customerName = scanner.nextLine();
@@ -57,16 +35,11 @@ public class Bank {
         String customerId = inputCustomerId(scanner, true, "Customer ID doesn't exist");
         if (customerId == null) return;
 
-        Account account = new Account();
-
-        String number = inputNumber(scanner);
-        double balance = inputBalance(scanner);
-        account.setNumber(number);
-        account.setBalance(balance);
+        Account account = createAccount(scanner);
 
         Customer customer = getCustomerById(customerId);
         if (customer != null) {
-            customer.getAccounts().add(account);
+            customer.addAccount(account);
         }
     }
 
@@ -90,7 +63,7 @@ public class Bank {
     }
 
     public void findCustomerByName(Scanner scanner) {
-        System.out.print("Input Customer's Name to find: ");
+        System.out.print("Input Customer Name to find: ");
         String name = scanner.nextLine();
 
         List<Customer> foundCustomers = getCustomersByName(name);
@@ -100,18 +73,23 @@ public class Bank {
             return;
         }
 
-        for (Customer customer : foundCustomers) {
-            customer.displayInformation();
-        }
+        foundCustomers.forEach(Customer::displayInformation);
+    }
+
+    private Account createAccount(Scanner scanner) {
+        Account account = new Account();
+
+        String number = inputNumber(scanner);
+        double balance = inputBalance(scanner);
+        account.setNumber(number);
+        account.setBalance(balance);
+
+        return account;
     }
 
     private boolean isCustomerExisted(String customerId) {
-        for (Customer customer: customers) {
-            if (customer.getId().equals(customerId)) {
-                return true;
-            }
-        }
-        return false;
+        Customer customer = getCustomerById(customerId);
+        return customer != null;
     }
 
     private boolean isAccountExisted(String accountNumber) {
@@ -144,6 +122,34 @@ public class Bank {
         return foundCustomers;
     }
 
+    private String inputCustomerId(Scanner scanner, boolean isCustomerExisted, String errorMessage) {
+        String customerId;
+        do {
+            System.out.print("INPUT CUSTOMER ID: ");
+            customerId = scanner.nextLine();
+
+            if (customerId.equalsIgnoreCase("no")) {
+                customerId = null;
+                break;
+            }
+
+            if (!IdValidation.isIdValid(customerId)) {
+                System.out.println("Customer ID is invalid");
+                System.out.println("Please try again or type 'No' to exit");
+                continue;
+            }
+
+            if (isCustomerExisted(customerId) != isCustomerExisted) {
+                System.out.println(errorMessage);
+                System.out.println("Please try again or type 'No' to exit");
+//                continue;
+            }
+
+//            return customerId;
+        } while (true);
+        return customerId;
+    }
+
     private String inputNumber(Scanner scanner) {
         String number;
         do {
@@ -170,7 +176,7 @@ public class Bank {
                 break;
             }
 
-            System.out.print("Balance must be at least "
+            System.out.println("Balance must be at least "
                     + CurrencyFormat.getCurrencyFormat(Constant.LANGUAGE, Constant.COUNTRY, Constant.ACCOUNT_FLOOR_LIMIT_BALANCE)
                     + ". Please try again!");
         } while (true);

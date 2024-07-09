@@ -29,7 +29,7 @@ public class Customer {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(String id) throws RuntimeException{
         this.id = id;
     }
 

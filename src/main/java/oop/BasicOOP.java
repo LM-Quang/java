@@ -6,7 +6,7 @@ import utils.StringFormat;
 
 import java.util.Scanner;
 
-public class OOP {
+public class BasicOOP {
     private static final Scanner SCAN = new Scanner(System.in);
     private static final Bank BANK = new Bank();
     public static void main(String[] args) {
@@ -38,7 +38,6 @@ public class OOP {
             }
         } while (flag);
     }
-    
     static void showMenu() {
         String str1 = StringFormat.centerText("BANKING APPLICATION");
         String str2 = String.format(Constant.STRING_FORMAT, " 1. ADD NEW CUSTOMER");

@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Map;
+
 /**
  * IdValidation class description.
  *
@@ -7,6 +9,11 @@ package utils;
  * @version 2024/06/30
  */
 public class IdValidation {
+    private static final int ID_LENGTH = 12;
+
+    //     Key: PROVINCE_CODE,  Value: PROVINCE
+    private static final Map<String, String> PROVINCE_CODE_LIST = ProvinceCodeList.provinceCodeListInitialize();
+
     public static boolean isIdValid(String id) {
         /*
          * Kiểm tra số CCCD
@@ -21,7 +28,7 @@ public class IdValidation {
          * 2. Each character has to be a number from 0 to 9
          * 3. Check Province Code: Compare the first 3 characters with Province Code
          * */
-        if (id.length() != Constant.ID_LENGTH) {
+        if (id.length() != ID_LENGTH) {
             return false;
         }
 
@@ -30,6 +37,6 @@ public class IdValidation {
         }
 
         String provinceCode = id.substring(0, 3);
-        return Constant.PROVINCE_CODE_LIST.containsKey(provinceCode);
+        return PROVINCE_CODE_LIST.containsKey(provinceCode);
     }
 }

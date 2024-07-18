@@ -1,22 +1,20 @@
 package models;
 
-import utils.Constant;
 import utils.CurrencyFormat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
+    private static final String LANGUAGE = "vi";
+    private static final String COUNTRY = "VN";
+
     private String id;
     private String name;
     private final List<Account> accounts;
-//    private boolean isPremium;
-//    private int numOfPremiumAccount;
 
     public Customer() {
         accounts = new ArrayList<>();
-//        isPremium = false;
-//        numOfPremiumAccount = 0;
     }
 
     public Customer(String id, String name) {
@@ -45,9 +43,6 @@ public class Customer {
         return accounts;
     }
 
-//    public boolean isPremium() {
-//        return isPremium;
-//    }
     public boolean isPremium() {
         for (Account account: accounts) {
             if (account.isPremium()) {
@@ -82,7 +77,7 @@ public class Customer {
         String id = String.format("%-13s", this.id);
         String name = String.format("| %-16s", this.name);
         String type = String.format(" | %-8s", isPremium() ? "Premium" : "Normal");
-        String totalBalance = String.format("|%20s", CurrencyFormat.getCurrencyFormat(Constant.LANGUAGE, Constant.COUNTRY, getBalance()));
+        String totalBalance = String.format("|%20s", CurrencyFormat.getCurrencyFormat(LANGUAGE, COUNTRY, getBalance()));
         String str1 = id + name + type + totalBalance;
         System.out.println(str1);
 

@@ -1,6 +1,5 @@
 package models;
 
-import utils.Constant;
 import utils.CurrencyFormat;
 import utils.IdValidation;
 import utils.NumberValidation;
@@ -124,6 +123,7 @@ public class Bank {
 
     private String inputCustomerId(Scanner scanner, boolean isCustomerExisted, String errorMessage) {
         String customerId;
+
         do {
             System.out.print("INPUT CUSTOMER ID: ");
             customerId = scanner.nextLine();
@@ -147,6 +147,7 @@ public class Bank {
 
 //            return customerId;
         } while (true);
+
         return customerId;
     }
 

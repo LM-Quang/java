@@ -1,14 +1,12 @@
-package oop;
-
 import models.Bank;
-import utils.Constant;
-import utils.StringFormat;
+import utils.MenuTemplate;
 
 import java.util.Scanner;
 
 public class BasicOOP {
     private static final Scanner SCAN = new Scanner(System.in);
     private static final Bank BANK = new Bank();
+
     public static void main(String[] args) {
         boolean flag = true;
         do {
@@ -39,24 +37,15 @@ public class BasicOOP {
         } while (flag);
     }
     static void showMenu() {
-        String str1 = StringFormat.centerText("BANKING APPLICATION");
-        String str2 = String.format(Constant.STRING_FORMAT, " 1. ADD NEW CUSTOMER");
-        String str3 = String.format(Constant.STRING_FORMAT, " 2. ADD NEW ACCOUNT FOR CUSTOMER");
-        String str4 = String.format(Constant.STRING_FORMAT, " 3. SHOW CUSTOMER LIST");
-        String str5 = String.format(Constant.STRING_FORMAT, " 4. FIND BY CUSTOMER ID");
-        String str6 = String.format(Constant.STRING_FORMAT, " 5. FIND BY CUSTOMER NAME");
-        String str7 = String.format(Constant.STRING_FORMAT, " 0. EXIT");
+        String str1 = "BANKING APPLICATION";
+        String str2 = " 1. ADD NEW CUSTOMER";
+        String str3 = " 2. ADD NEW ACCOUNT FOR CUSTOMER";
+        String str4 = " 3. SHOW CUSTOMER LIST";
+        String str5 = " 4. FIND BY CUSTOMER ID";
+        String str6 = " 5. FIND BY CUSTOMER NAME";
+        String str7 = " 0. EXIT";
 
-        System.out.println("+-------------------+---------------------+-------------------+");
-        System.out.println(str1);
-        System.out.println("+-------------------+---------------------+-------------------+");
-        System.out.println(str2);
-        System.out.println(str3);
-        System.out.println(str4);
-        System.out.println(str5);
-        System.out.println(str6);
-        System.out.println(str7);
-        System.out.println("+-------------------+---------------------+-------------------+");
+        MenuTemplate.showMenu(str1, str2, str3, str4, str5, str6, str7);
         System.out.print("Your choice: ");
     }
 }

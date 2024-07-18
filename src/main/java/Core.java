@@ -1,11 +1,22 @@
 import utils.*;
 
+import java.util.Map;
+import java.util.Scanner;
+
 public class Core {
+    private static final Scanner SCAN = new Scanner(System.in);
+
+    //     Key: PROVINCE_CODE,  Value: PROVINCE
+    private static final Map<String, String> PROVINCE_CODE_LIST = ProvinceCodeList.provinceCodeListInitialize();
+
+    //     Key: GENDER_CODE,  Value: First 2 numbers of the CENTURY
+    private static final Map<String, String> GENDER_CODE_LIST = GenderCodeList.genderCodeListInitialize();
+
     public static void main(String[] args) {
         boolean flag = true;
         do {
             showMenu();
-            String chose = Constant.SCAN.nextLine();
+            String chose = SCAN.nextLine();
             switch (chose) {
                 case "0":
                     flag = false;
@@ -23,25 +34,25 @@ public class Core {
     }
 
     private static void showMenu() {
-        String title = StringFormat.centerText("CHECK IDENTIFICATION NUMBER");
-        String item1 = String.format(Constant.STRING_FORMAT, " 1. Check Your ID Number Information");
-        String item2 = String.format(Constant.STRING_FORMAT, " 0. Exit");
+        String title = "CHECK IDENTIFICATION NUMBER";
+        String item1 = " 1. Check Your ID Number Information";
+        String item2 = " 0. Exit";
 
-        MenuTemplate.getMenuTemplate(title, item1, item2);
+        MenuTemplate.showMenu(title, item1, item2);
         System.out.print("Your choice: ");
     }
 
     private static String createVerificationCode() {
-        String title = StringFormat.centerText("CREATE VERIFICATION CODE");
-        String item1 = String.format(Constant.STRING_FORMAT, " 1. Simple Verification Code");
-        String item2 = String.format(Constant.STRING_FORMAT, " 2. Complex Verification Code");
+        String title = "CREATE VERIFICATION CODE";
+        String item1 = " 1. Simple Verification Code";
+        String item2 = " 2. Complex Verification Code";
 
         String chose;
         do {
-            MenuTemplate.getMenuTemplate(title, item1, item2);
+            MenuTemplate.showMenu(title, item1, item2);
             System.out.print("Your choice: ");
 
-            chose = Constant.SCAN.nextLine();
+            chose = SCAN.nextLine();
             switch (chose) {
                 case "1":
                     return VerificationCode.createSimpleVerificationCode();
@@ -58,7 +69,7 @@ public class Core {
         String inputCode;
         do {
             System.out.print("Your code: ");
-            inputCode = Constant.SCAN.nextLine();
+            inputCode = SCAN.nextLine();
             
             if (inputCode.equalsIgnoreCase("q")) {
                 return false;
@@ -76,7 +87,7 @@ public class Core {
         String idNumber;
         do {
             System.out.print("Input your ID Number: ");
-            idNumber = Constant.SCAN.nextLine();
+            idNumber = SCAN.nextLine();
             
             if (idNumber.equalsIgnoreCase("q")) {
                 return;
@@ -97,14 +108,14 @@ public class Core {
         String genderCode = idNumber.substring(3, 4);
         String yearOfBirthCode = idNumber.substring(4, 6);
         String randomCode = idNumber.substring(6);
-
-        String title = StringFormat.centerText("YOUR CITIZENSHIP INFORMATION");
-        String item1 = String.format(Constant.STRING_FORMAT, " Place of Birth: " + Constant.PROVINCE_CODE_LIST.get(provinceCode));
-        String item2 = String.format(Constant.STRING_FORMAT, " Year of Birth: " + Constant.GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode);
         String gender = Integer.parseInt(genderCode) % 2 == 0 ? "Male" : "Female";
-        String item3 = String.format(Constant.STRING_FORMAT, " Gender: " + gender);
-        String item4 = String.format(Constant.STRING_FORMAT, " Random Number: " + randomCode);
 
-        MenuTemplate.getMenuTemplate(title, item1, item2, item3, item4);
+        String title = "YOUR CITIZENSHIP INFORMATION";
+        String item1 = " Place of Birth: " + PROVINCE_CODE_LIST.get(provinceCode);
+        String item2 = " Year of Birth: " + GENDER_CODE_LIST.get(genderCode) + yearOfBirthCode;
+        String item3 = " Gender: " + gender;
+        String item4 = " Random Number: " + randomCode;
+
+        MenuTemplate.showMenu(title, item1, item2, item3, item4);
     }
 }

@@ -1,4 +1,4 @@
-package utils;
+package validation;
 
 /**
  * NumberValidation class description.

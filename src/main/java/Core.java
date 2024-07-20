@@ -1,4 +1,6 @@
+import format.MenuFormat;
 import utils.*;
+import validation.IdValidation;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -38,7 +40,7 @@ public class Core {
         String item1 = " 1. Check Your ID Number Information";
         String item2 = " 0. Exit";
 
-        MenuTemplate.showMenu(title, item1, item2);
+        MenuFormat.showMenu(title, item1, item2);
         System.out.print("Your choice: ");
     }
 
@@ -49,7 +51,7 @@ public class Core {
 
         String chose;
         do {
-            MenuTemplate.showMenu(title, item1, item2);
+            MenuFormat.showMenu(title, item1, item2);
             System.out.print("Your choice: ");
 
             chose = SCAN.nextLine();
@@ -116,6 +118,6 @@ public class Core {
         String item3 = " Gender: " + gender;
         String item4 = " Random Number: " + randomCode;
 
-        MenuTemplate.showMenu(title, item1, item2, item3, item4);
+        MenuFormat.showMenu(title, item1, item2, item3, item4);
     }
 }

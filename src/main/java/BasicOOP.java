@@ -1,5 +1,5 @@
 import models.Bank;
-import utils.MenuTemplate;
+import format.MenuFormat;
 
 import java.util.Scanner;
 
@@ -45,7 +45,7 @@ public class BasicOOP {
         String str6 = " 5. FIND BY CUSTOMER NAME";
         String str7 = " 0. EXIT";
 
-        MenuTemplate.showMenu(str1, str2, str3, str4, str5, str6, str7);
+        MenuFormat.showMenu(str1, str2, str3, str4, str5, str6, str7);
         System.out.print("Your choice: ");
     }
 }

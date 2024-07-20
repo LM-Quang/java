@@ -1,4 +1,4 @@
-package utils;
+package format;
 
 /**
  * MenuTemplate class description.
@@ -6,7 +6,7 @@ package utils;
  * @author quangle
  * @version 2024/07/17
  */
-public class MenuTemplate {
+public class MenuFormat {
     private static final String DIVIDER = "+-------------------+---------------------+-------------------+";
 
     public static void showMenu(String title, String... items) {

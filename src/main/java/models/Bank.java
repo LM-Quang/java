@@ -1,8 +1,8 @@
 package models;
 
-import utils.CurrencyFormat;
-import utils.IdValidation;
-import utils.NumberValidation;
+import format.CurrencyFormat;
+import validation.IdValidation;
+import validation.NumberValidation;
 
 import java.util.*;
 

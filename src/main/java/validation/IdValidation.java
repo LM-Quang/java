@@ -1,4 +1,6 @@
-package utils;
+package validation;
+
+import utils.ProvinceCodeList;
 
 import java.util.Map;
 

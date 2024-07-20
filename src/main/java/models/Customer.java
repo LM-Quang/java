@@ -1,6 +1,6 @@
 package models;
 
-import utils.CurrencyFormat;
+import format.CurrencyFormat;
 
 import java.util.ArrayList;
 import java.util.List;
